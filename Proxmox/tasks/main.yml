@@ -1,0 +1,23 @@
+---
+- name: Copy the host file
+  template:
+    src: hosts
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Test for already writen line
+  shell: grep -c "^ANSIBLE MANAGED BLOCK" /etc/network/interfaces || true
+  register: test_grep
+
+- name: Insert/Update configuration using a local file and validate it
+  blockinfile:
+    block: "{{ lookup('file', '/tmp/interfaces') }}"
+    path: /etc/network/interfaces
+    create: yes
+  when: test_grep.stdout == "0"
+
+- name: Configure firewall
+  ansible.builtin.command: "iptables -I INPUT -p all -s {{item}} -j ACCEPT"
+  with_items: "{{ NODE_IPS }}"

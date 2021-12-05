@@ -1,0 +1,4 @@
+---
+- name: Add initial nodes to the cluster
+  ansible.builtin.command: "pvecm add {{item}}"
+  with_items: "{{ NODE_IPS }}"

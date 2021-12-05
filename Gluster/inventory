@@ -1,0 +1,11 @@
+[master]
+192.168.1.20 -o "Proxyjump root@51.159.59.19"
+
+[slaves]
+192.168.1.20 -o "Proxyjump root@51.159.59.35"
+192.168.1.20 -o "Proxyjump root@51.159.59.206"
+
+
+[all:vars]
+ansible_connection=ssh
+ansible_user=root

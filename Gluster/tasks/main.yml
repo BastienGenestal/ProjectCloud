@@ -1,0 +1,17 @@
+---
+- name: Install glusterFS 
+  yum:
+    name: glusterfs-server
+    state: present
+    update_cache: yes
+
+- name: Ensure glusterFS is enabled on boot
+  systemd:
+    daemon_reload: true
+    name: glusterd
+    enabled: true
+    state: started
+
+- name: GlusterFS peering
+  ansible.builtin.command: "gluster peer probe {{item}}"
+  with_items: "{{ NODE_IPS }}"

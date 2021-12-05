@@ -1,1 +1,0 @@
-ubuntu@52.47.69.36 ansible_ssh_private_key_file=~/.ssh/LightsailDefaultKey-eu-west-3.pem

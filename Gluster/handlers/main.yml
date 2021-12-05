@@ -1,0 +1,12 @@
+---
+- name: restart glusterd
+  service:
+    name:
+      - glusterd
+    state: restarted
+
+- name: enable glusterd
+  service:
+    name:
+      - glusterd
+    state: enabled

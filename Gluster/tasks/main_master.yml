@@ -1,0 +1,30 @@
+---
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ GLUSTER_SHARED_VOLUME_PATH }}"
+    state: directory
+    mode: '0755'
+
+- name: Peer master to slaves nodes
+  ansible.builtin.command: "gluster peer probe {{ items }}"
+  with_items: "{{ SLAVE_NODE_IPS }}"
+
+## EXECUTE SLAVE CODE
+
+- name: Join slaves to master node
+  ansible.builtin.command: "gluster peer probe {{ MASTER_NODE_IP }}"
+  when: inventory_hostname in groups['slave']
+
+
+- name: Create the shared volume
+  ansible.builtin.command: "gluster volume create gv0 replica 3 {{ items }}: {{ GLUSTER_SHARED_VOLUME_PATH }} force"
+  with_items: "{{ NODE_IPS }}"
+
+- name: Create the shared volume
+  ansible.builtin.command: "gluster volume start gv0"
+
+
+
+
+

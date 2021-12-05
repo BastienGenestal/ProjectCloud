@@ -1,0 +1,4 @@
+---
+
+- name: Create a new cluster
+  ansible.builtin.command: "pvecm create {{CLUSTER_NAME}}"
